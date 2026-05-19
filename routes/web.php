@@ -57,4 +57,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/account/security/sessions',[SecurityController::class, 'logoutOtherDevices'])->name('security.logout-others');
     // Logout
     Route::post('/logout',             [AuthController::class, 'logout'])->name('logout');
+    Route::get('/manifest.json', function () {
+    return response()->file(public_path('manifest.json'), [
+        'Content-Type' => 'application/manifest+json',
+    ]);
+});
 });
