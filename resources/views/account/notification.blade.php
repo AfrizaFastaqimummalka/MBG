@@ -33,15 +33,6 @@
     </div>
     @endif
 
-    {{-- Info Fonnte --}}
-    <div style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1px solid rgba(59,130,246,0.20);border-radius:14px;padding:14px 16px;display:flex;gap:10px">
-        <i data-lucide="info" style="width:16px;height:16px;color:#2563EB;flex-shrink:0;margin-top:1px"></i>
-        <p style="font-size:12px;color:#1D4ED8;line-height:1.6;font-weight:500">
-            Notifikasi dikirim via <strong>WhatsApp</strong> menggunakan layanan <strong>Fonnte</strong>.
-            Pastikan token Fonnte sudah diisi di file <code style="background:rgba(37,99,235,0.10);padding:1px 5px;border-radius:4px">.env</code>.
-        </p>
-    </div>
-
     {{-- Form Pengaturan --}}
     <form method="POST" action="{{ route('notification.update') }}">
         @csrf
