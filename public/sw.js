@@ -1,19 +1,31 @@
 const CACHE_NAME = 'mbg-v1';
-const urlsToCache = [
-    '/',
-    '/manifest.json'
-];
 
 self.addEventListener('install', event => {
+    self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+        caches.keys().then(keys =>
+            Promise.all(keys.map(key => caches.delete(key)))
+        )
     );
 });
 
 self.addEventListener('fetch', event => {
-    event.respondWith(
-        caches.match(event.request).then(response => {
-            return response || fetch(event.request);
-        })
-    );
+    // Hanya cache assets statis, bukan halaman auth
+    if (event.request.destination === 'style' ||
+        event.request.destination === 'script' ||
+        event.request.destination === 'image') {
+        event.respondWith(
+            caches.open(CACHE_NAME).then(cache =>
+                cache.match(event.request).then(response =>
+                    response || fetch(event.request).then(res => {
+                        cache.put(event.request, res.clone());
+                        return res;
+                    })
+                )
+            )
+        );
+    }
 });
